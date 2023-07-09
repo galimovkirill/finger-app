@@ -1,0 +1,63 @@
+@mixin getHeadingStyles($fontSize) {
+    font-weight: 800;
+    font-size: $fontSize;
+}
+
+.text {
+    &-heading {
+        &-xxl {
+            @include getHeadingStyles(56px);
+        }
+
+        &-xl {
+            @include getHeadingStyles(48px);
+        }
+
+        &-l {
+            @include getHeadingStyles(40px);
+        }
+
+        &-m {
+            @include getHeadingStyles(32px);
+        }
+
+        &-s {
+            @include getHeadingStyles(24px);
+        }
+
+        &-xs {
+            @include getHeadingStyles(18px);
+        }
+    }
+
+    &-body {
+        &-bold {
+            font-weight: 700;
+        }
+
+        &-xl {
+            font-size: 19px;
+            letter-spacing: 0.02em;
+        }
+
+        &-l {
+            font-size: 17px;
+            letter-spacing: 0.02em;
+        }
+
+        &-m {
+            font-size: 15px;
+            letter-spacing: 0.02em;
+        }
+
+        &-s {
+            font-size: 13px;
+            letter-spacing: 0.01em;
+        }
+
+        &-xs {
+            font-size: 11px;
+            letter-spacing: 0.01em;
+        }
+    }
+}
