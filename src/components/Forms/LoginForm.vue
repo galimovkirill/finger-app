@@ -3,32 +3,32 @@
         <h1 class="text-heading-s login-form__heading">Вход в аккаунта</h1>
 
         <div class="login-fields">
-            <BaseInput v-model="login" placeholder="Электронный адрес" type="email">
+            <FgInput v-model="login" placeholder="Электронный адрес" type="email">
                 <template #icon>
                     <SvgIcon>
                         <IconEmail />
                     </SvgIcon>
                 </template>
-            </BaseInput>
+            </FgInput>
 
-            <BaseInput v-model="password" placeholder="Пароль" type="password">
+            <FgInput v-model="password" placeholder="Пароль" type="password">
                 <template #icon>
                     <SvgIcon>
                         <IconLock />
                     </SvgIcon>
                 </template>
-            </BaseInput>
+            </FgInput>
         </div>
 
         <div class="login-actions">
-            <BaseButton native-type="submit">Войти</BaseButton>
-            <BaseButton type="border" :to="{ name: 'Register' }">Зарегистрироваться</BaseButton>
+            <FgButton native-type="submit">Войти</FgButton>
+            <FgButton type="border" :to="{ name: 'Register' }">Зарегистрироваться</FgButton>
         </div>
     </form>
 </template>
 
 <script lang="ts" setup>
-import { BaseButton, BaseInput } from '@galimovdev/fg-ui';
+import { FgButton, FgInput } from '@galimovdev/fg-ui';
 import SvgIcon from '@/components/SvgIcon.vue';
 import IconLock from '@/icons/IconLock.vue';
 import IconEmail from '@/icons/IconEmail.vue';

@@ -1,5 +1,5 @@
 <template>
-    <BasePopover
+    <FgPopover
         alignment="bottomRight"
         class="header-profile"
         :content-padding="0"
@@ -8,7 +8,7 @@
     >
         <template #relative>
             <div class="header-profile__button">
-                <BaseAvatar color="primary">Kirill Galimov</BaseAvatar>
+                <FgAvatar color="primary">Kirill Galimov</FgAvatar>
                 <SvgIcon :width="16">
                     <IconChevron />
                 </SvgIcon>
@@ -31,7 +31,7 @@
                 </li>
             </ul>
         </template>
-    </BasePopover>
+    </FgPopover>
 </template>
 
 <script lang="ts" setup>
@@ -40,7 +40,7 @@ import IconChevron from '@/icons/IconChevron.vue';
 import IconUser from '@/icons/IconUser.vue';
 import IconExit from '@/icons/IconExit.vue';
 
-import { BaseAvatar, BasePopover } from '@galimovdev/fg-ui';
+import { FgAvatar, FgPopover } from '@galimovdev/fg-ui';
 </script>
 
 <style lang="scss">

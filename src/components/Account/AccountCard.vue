@@ -1,18 +1,18 @@
 <template>
     <div class="account-card">
         <div class="account-card__wrapper">
-            <BaseAvatar color="primary">test</BaseAvatar>
+            <FgAvatar color="primary">test</FgAvatar>
 
             <div class="account-card__body">
                 <span class="account-card__title">{{ data.title }}</span>
-                <BaseCounter :value="data.balance" class="account-card__balance" />
+                <FgCounter :value="data.balance" class="account-card__balance" />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { BaseAvatar, BaseCounter } from '@galimovdev/fg-ui';
+import { FgAvatar, FgCounter } from '@galimovdev/fg-ui';
 
 export interface IAccountCard {
     title: string;

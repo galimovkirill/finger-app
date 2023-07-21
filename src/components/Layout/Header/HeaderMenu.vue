@@ -1,12 +1,12 @@
 <template>
     <div class="header-menu">
-        <BaseButton type="flat" size="small">+ Запись</BaseButton>
+        <FgButton type="flat" size="small">+ Запись</FgButton>
         <HeaderProfile />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { BaseButton } from '@galimovdev/fg-ui';
+import { FgButton } from '@galimovdev/fg-ui';
 import HeaderProfile from '@/components/Layout/Header/HeaderProfile.vue';
 </script>
 

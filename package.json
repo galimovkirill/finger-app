@@ -15,7 +15,7 @@
         "init-msw": "msw init public/"
     },
     "dependencies": {
-        "@galimovdev/fg-ui": "^0.0.9",
+        "@galimovdev/fg-ui": "^0.0.10",
         "@vueuse/core": "^10.1.2",
         "lodash": "^4.17.21",
         "pinia": "^2.1.4",
