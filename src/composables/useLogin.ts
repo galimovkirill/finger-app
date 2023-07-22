@@ -1,17 +1,36 @@
 import { useUserStore } from '@/stores/user';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { required, email as emailValidator, minLength } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
 
 export const useLogin = () => {
     const email = ref('');
     const password = ref('');
 
     const router = useRouter();
-
     const userStore = useUserStore();
 
-    const submitLogin = async () => {
-        if (!email.value || !password.value) {
+    const validationRules = computed(() => ({
+        email: {
+            required,
+            email: emailValidator
+        },
+        password: {
+            required,
+            minLength: minLength(6)
+        }
+    }));
+
+    const $v = useVuelidate(validationRules, {
+        email,
+        password
+    });
+
+    const onSubmit = async () => {
+        await $v.value.$validate();
+
+        if ($v.value.$error) {
             return;
         }
 
@@ -19,5 +38,5 @@ export const useLogin = () => {
         router.push({ name: 'Home' });
     };
 
-    return { email, password, submitLogin };
+    return { email, password, onSubmit, $v };
 };
