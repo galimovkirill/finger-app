@@ -3,7 +3,7 @@
         <h1 class="text-heading-s register-form__heading">Регистрация</h1>
 
         <div class="register-fields">
-            <FgInput v-model="login" placeholder="Электронный адрес" type="email">
+            <FgInput v-model="email" placeholder="Электронный адрес" type="email">
                 <template #icon>
                     <SvgIcon>
                         <IconEmail />
@@ -48,7 +48,7 @@ import IconEmail from '@/icons/IconEmail.vue';
 import IconLock from '@/icons/IconLock.vue';
 import { useRegister } from '@/composables/useRegister';
 
-const { login, password, passwordRepeat, isPolicyAgreed, submitRegister } = useRegister();
+const { email, password, passwordRepeat, isPolicyAgreed, submitRegister } = useRegister();
 </script>
 
 <style lang="scss">

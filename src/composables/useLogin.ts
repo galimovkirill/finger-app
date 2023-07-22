@@ -1,12 +1,23 @@
+import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export const useLogin = () => {
-    const login = ref('');
+    const email = ref('');
     const password = ref('');
 
-    const submitLogin = () => {
-        console.log('Form data: ', { login, password });
+    const router = useRouter();
+
+    const userStore = useUserStore();
+
+    const submitLogin = async () => {
+        if (!email.value || !password.value) {
+            return;
+        }
+
+        await userStore.loginUser({ email: email.value, password: password.value });
+        router.push({ name: 'Home' });
     };
 
-    return { login, password, submitLogin };
+    return { email, password, submitLogin };
 };

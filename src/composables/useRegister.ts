@@ -1,18 +1,18 @@
 import { ref } from 'vue';
 
 export const useRegister = () => {
-    const login = ref('');
+    const email = ref('');
     const password = ref('');
     const passwordRepeat = ref('');
 
     const isPolicyAgreed = ref(false);
 
     const submitRegister = () => {
-        console.log('Form data: ', { login, password, passwordRepeat });
+        console.log('Form data: ', { email, password, passwordRepeat });
     };
 
     return {
-        login,
+        email,
         password,
         passwordRepeat,
         isPolicyAgreed,

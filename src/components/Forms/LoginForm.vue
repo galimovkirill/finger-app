@@ -1,9 +1,9 @@
 <template>
     <form class="login-form" @submit.prevent="submitLogin">
-        <h1 class="text-heading-s login-form__heading">Вход в аккаунта</h1>
+        <h1 class="text-heading-s login-form__heading">Авторизация</h1>
 
         <div class="login-fields">
-            <FgInput v-model="login" placeholder="Электронный адрес" type="email">
+            <FgInput v-model="email" placeholder="Электронный адрес" type="email">
                 <template #icon>
                     <SvgIcon>
                         <IconEmail />
@@ -34,7 +34,7 @@ import IconLock from '@/icons/IconLock.vue';
 import IconEmail from '@/icons/IconEmail.vue';
 import { useLogin } from '@/composables/useLogin';
 
-const { login, password, submitLogin } = useLogin();
+const { email, password, submitLogin } = useLogin();
 </script>
 
 <style lang="scss">

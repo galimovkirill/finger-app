@@ -15,12 +15,16 @@
         "init-msw": "msw init public/"
     },
     "dependencies": {
-        "@galimovdev/fg-ui": "^0.0.10",
+        "@galimovdev/fg-ui": "^0.0.11",
         "@vueuse/core": "^10.1.2",
-        "lodash": "^4.17.21",
+        "@vueuse/integrations": "^10.2.1",
+        "axios": "^1.4.0",
+        "dayjs": "^1.11.9",
+        "jwt-decode": "^3.1.2",
         "pinia": "^2.1.4",
         "sass": "^1.63.4",
         "sass-loader": "^13.3.2",
+        "universal-cookie": "^4.0.4",
         "vue": "^3.3.4",
         "vue-router": "^4.2.2"
     },
