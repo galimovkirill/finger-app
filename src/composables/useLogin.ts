@@ -30,9 +30,9 @@ export const useLogin = () => {
     const onSubmit = async () => {
         await $v.value.$validate();
 
-        if ($v.value.$error) {
-            return;
-        }
+        // if ($v.value.$error) {
+        //     return;
+        // }
 
         await userStore.loginUser({ email: email.value, password: password.value });
         router.push({ name: 'Home' });
