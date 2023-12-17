@@ -16,7 +16,7 @@ http.interceptors.response.use(
 
         addNotification({
             type: 'error',
-            code: error.response.data.statusCode || 'unknown',
+            code: error.response.data.statusCode,
             message: error.response.data.message || 'Unknown error'
         });
     }

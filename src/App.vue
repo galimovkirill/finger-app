@@ -8,9 +8,10 @@
             <ToastNotification
                 v-for="notification in notifications"
                 :key="notification.id"
-                :notification="notification"
+                :id="notification.id"
+                :type="notification.type"
             >
-                test
+                {{ notification.message }}
             </ToastNotification>
         </div>
     </div>
@@ -19,7 +20,8 @@
 <script lang="ts" setup>
 import ToastNotification from '@/components/Common/ToastNotification.vue';
 import { useNotificationsStore } from '@/stores/notifications';
-import { capitalize, computed, defineAsyncComponent, toRefs } from 'vue';
+import { storeToRefs } from 'pinia';
+import { capitalize, computed, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -30,19 +32,21 @@ const layout = computed(() => {
     return defineAsyncComponent(() => import(`@/layouts/${layoutName}.vue`));
 });
 
-const { notifications } = toRefs(useNotificationsStore());
+const { notifications } = storeToRefs(useNotificationsStore());
 </script>
 
 <style lang="scss">
 .app {
     &__notifications {
-        position: fixed;
+        display: flex;
+        flex-direction: column;
         justify-content: flex-start;
+        align-items: flex-start;
+        position: fixed;
         left: 32px;
         bottom: 32px;
-        max-width: 90%;
+        max-width: 400px;
         width: 100%;
-        display: grid;
         gap: 8px;
     }
 }

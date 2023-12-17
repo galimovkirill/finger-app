@@ -1,16 +1,14 @@
 <template>
-    <div
-        class="toast"
-        :class="[`toast--${props.notification.type}`]"
-        @click="deleteNotification(props.notification.id)"
-    >
+    <div class="toast" :class="[`toast--${type}`, { 'toast--closable': closable }]">
         <div class="toast__wrapper">
+            <h4 class="toast__title">Ошибка авторизации</h4>
+
             <div class="toast__content">
                 <slot></slot>
             </div>
 
-            <SvgIcon name="close" class="toast__close">
-                <IconExit />
+            <SvgIcon v-if="closable" name="close" class="toast__close" @click="handleClose">
+                <IconClose />
             </SvgIcon>
         </div>
     </div>
@@ -18,36 +16,51 @@
 
 <script lang="ts" setup>
 import SvgIcon from '@/components/SvgIcon.vue';
-import IconExit from '@/icons/IconExit.vue';
+import IconClose from '@/icons/IconClose.vue';
 import { useNotificationsStore } from '@/stores/notifications';
 import { Notification } from '@/types/common/notification';
 
 interface Props {
-    notification: Notification;
+    id: Notification['id'];
+    type: Notification['type'];
+    closable?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    closable: true
+});
 
 const { deleteNotification } = useNotificationsStore();
+
+const handleClose = () => {
+    if (!props.closable) return;
+
+    deleteNotification(props.id);
+};
 </script>
 
 <style lang="scss">
 .toast {
     $self: &;
 
+    position: relative;
     padding: 8px 16px;
     font-size: 12px;
     border-radius: 16px;
     display: inline-block;
-    margin: 0 auto;
 
     &__wrapper {
         display: flex;
-        align-items: center;
+        flex-direction: column;
     }
 
-    &__close {
-        margin-left: 8px;
+    &__title {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    &__content {
+        display: flex;
     }
 
     &--error {
@@ -56,6 +69,17 @@ const { deleteNotification } = useNotificationsStore();
 
         #{$self}__close {
             fill: var(--color-danger);
+        }
+    }
+
+    &--closable {
+        padding-right: 40px;
+
+        #{$self}__close {
+            position: absolute;
+            right: 8px;
+            top: 6px;
+            cursor: pointer;
         }
     }
 }

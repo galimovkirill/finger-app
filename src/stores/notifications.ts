@@ -1,31 +1,35 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 import { Notification } from '@/types/common/notification';
 import { uid } from 'uid/single';
 
-export const useNotificationsStore = defineStore('notifications', () => {
-    const notifications = ref<Notification[]>([]);
+interface State {
+    notifications: Notification[];
+}
 
-    const addNotification = (notification: Omit<Notification, 'id'>) => {
-        const notificationUid = uid();
-        notifications.value = [...notifications.value, { id: notificationUid, ...notification }];
+export const useNotificationsStore = defineStore('notifications', {
+    state: (): State => ({
+        notifications: []
+    }),
 
-        // setTimeout(() => {
-        //     deleteNotification(notificationUid);
-        // }, 5000);
-    };
+    actions: {
+        /**
+         * @param delay delay to auto-delete notification in milliseconds
+         */
+        addNotification(notification: Omit<Notification, 'id'>, delay?: number) {
+            const notificationUid = uid();
+            this.notifications = [...this.notifications, { id: notificationUid, ...notification }];
 
-    const deleteNotification = (notificationId: Notification['id']) => {
-        const notificationIndex = notifications.value.findIndex((n) => n.id === notificationId);
+            if (delay) {
+                setTimeout(() => this.deleteNotification(notificationUid), delay);
+            }
+        },
 
-        if (notificationIndex > -1) {
-            notifications.value.splice(notificationIndex, 1);
+        deleteNotification(notificationId: Notification['id']) {
+            const notificationIndex = this.notifications.findIndex((n) => n.id === notificationId);
+
+            if (notificationIndex > -1) {
+                this.notifications.splice(notificationIndex, 1);
+            }
         }
-    };
-
-    return {
-        notifications,
-        addNotification,
-        deleteNotification
-    };
+    }
 });
