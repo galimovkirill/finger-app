@@ -15,7 +15,7 @@ export const useNotificationsStore = defineStore('notifications', {
         /**
          * @param delay delay to auto-delete notification in milliseconds
          */
-        addNotification(notification: Omit<Notification, 'id'>, delay?: number) {
+        addNotification(notification: Omit<Notification, 'id'>, delay = 5000) {
             const notificationUid = uid();
             this.notifications = [...this.notifications, { id: notificationUid, ...notification }];
 

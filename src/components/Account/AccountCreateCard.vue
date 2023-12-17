@@ -1,6 +1,26 @@
 <template>
-    <div class="account-create-card">Создать новый счет</div>
+    <div class="account-create-card" @click="isCreationModalShown = true">Добавить счет</div>
+
+    <Teleport to="body">
+        <FgModal v-if="isCreationModalShown" @close-modal="isCreationModalShown = false">
+            <template #header>
+                <h3>Создать счет</h3>
+            </template>
+
+            <template #default="{ close }">
+                <AccountCreateForm @on-submit-callback="close" />
+            </template>
+        </FgModal>
+    </Teleport>
 </template>
+
+<script lang="ts" setup>
+import { FgModal } from '@galimovdev/fg-ui';
+import AccountCreateForm from '@/components/Account/AccountCreateForm.vue';
+import { ref } from 'vue';
+
+const isCreationModalShown = ref(false);
+</script>
 
 <style lang="scss">
 @import '@/assets/styles/mixin.scss';

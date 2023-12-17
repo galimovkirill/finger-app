@@ -42,15 +42,25 @@ import { FgButton, FgInput } from '@galimovdev/fg-ui';
 import SvgIcon from '@/components/SvgIcon.vue';
 import IconLock from '@/icons/IconLock.vue';
 import IconEmail from '@/icons/IconEmail.vue';
-import { useLogin } from '@/composables/auth/useLogin';
 import useVuelidate from '@vuelidate/core';
 import { required, email as emailValidator, minLength } from '@vuelidate/validators';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { PASSWORD_MIN_LENGTH } from '@/constants/auth';
+import { useAuth } from '@/composables/auth/useAuth';
+import { useUserStore } from '@/stores/user';
+import { useCookies } from '@vueuse/integrations/useCookies';
+import { CookiesKeys } from '@/constants/cookies';
+
+const userStore = useUserStore();
 
 const router = useRouter();
-const { email, password, loginUser } = useLogin();
+const cookies = useCookies();
+
+const { getUserByToken } = useAuth();
+
+const email = ref('');
+const password = ref('');
 
 const validationRules = computed(() => ({
     email: {
@@ -75,7 +85,18 @@ const onSubmit = async () => {
         return;
     }
 
-    await loginUser({ email: email.value, password: password.value });
+    try {
+        const { token } = await userStore.loginUser({
+            email: email.value,
+            password: password.value
+        });
+
+        userStore.$patch({ user: getUserByToken(token) });
+        cookies.set(CookiesKeys.ACCESS_TOKEN, token);
+    } catch (error) {
+        console.log(error);
+    }
+
     router.push({ name: 'Home' });
 };
 </script>

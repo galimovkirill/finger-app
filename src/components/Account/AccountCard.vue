@@ -1,27 +1,21 @@
 <template>
     <div class="account-card">
         <div class="account-card__wrapper">
-            <FgAvatar color="primary">test</FgAvatar>
+            <FgAvatar color="primary">{{ name }}</FgAvatar>
 
             <div class="account-card__body">
-                <span class="account-card__title">{{ data.title }}</span>
-                <FgCounter :value="data.balance" class="account-card__balance" />
+                <span class="account-card__title">{{ name }}</span>
+                <FgCounter :value="balance" class="account-card__balance" />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { Account } from '@/types/account/account';
 import { FgAvatar, FgCounter } from '@galimovdev/fg-ui';
 
-export interface IAccountCard {
-    title: string;
-    balance: number;
-}
-
-interface Props {
-    data: IAccountCard;
-}
+interface Props extends Pick<Account, 'name' | 'balance'> {}
 
 defineProps<Props>();
 </script>
@@ -35,6 +29,7 @@ defineProps<Props>();
     border-radius: 16px;
     user-select: none;
     transition: 0.2s ease;
+    display: flex;
 
     &__wrapper {
         display: flex;

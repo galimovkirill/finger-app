@@ -1,7 +1,9 @@
 <template>
     <div class="toast" :class="[`toast--${type}`, { 'toast--closable': closable }]">
         <div class="toast__wrapper">
-            <h4 class="toast__title">Ошибка авторизации</h4>
+            <h4 v-if="$slots.title" class="toast__title">
+                <slot name="title"></slot>
+            </h4>
 
             <div class="toast__content">
                 <slot></slot>
@@ -66,10 +68,11 @@ const handleClose = () => {
     &--error {
         background: rgba(var(--fg-danger), 0.1);
         color: rgb(var(--fg-danger));
+    }
 
-        #{$self}__close {
-            fill: var(--color-danger);
-        }
+    &--success {
+        background: rgba(var(--fg-success), 0.1);
+        color: rgb(var(--fg-success));
     }
 
     &--closable {

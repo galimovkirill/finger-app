@@ -9,5 +9,9 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
+
+    > * {
+        min-height: 82px;
+    }
 }
 </style>

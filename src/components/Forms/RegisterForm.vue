@@ -56,15 +56,26 @@ import { FgInput, FgButton, FgCheckbox } from '@galimovdev/fg-ui';
 import SvgIcon from '@/components/SvgIcon.vue';
 import IconEmail from '@/icons/IconEmail.vue';
 import IconLock from '@/icons/IconLock.vue';
-import { useRegister } from '@/composables/auth/useRegister';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { required, email as emailValidator, minLength, sameAs } from '@vuelidate/validators';
 import { PASSWORD_MIN_LENGTH } from '@/constants/auth';
 import useVuelidate from '@vuelidate/core';
 import { useRouter } from 'vue-router';
+import { useCookies } from '@vueuse/integrations/useCookies';
+import { useAuth } from '@/composables/auth/useAuth';
+import { useUserStore } from '@/stores/user';
+import { CookiesKeys } from '@/constants/cookies';
+
+const userStore = useUserStore();
+const { getUserByToken } = useAuth();
+const cookies = useCookies();
 
 const router = useRouter();
-const { email, password, passwordRepeat, isPolicyAgreed, registerUser } = useRegister();
+
+const email = ref('');
+const password = ref('');
+const passwordRepeat = ref('');
+const isPolicyAgreed = ref(false);
 
 const validationRules = computed(() => ({
     email: {
@@ -94,7 +105,18 @@ const onSubmit = async () => {
         return;
     }
 
-    await registerUser({ email: email.value, password: password.value });
+    try {
+        const { token } = await userStore.registerUser({
+            email: email.value,
+            password: password.value
+        });
+
+        userStore.$patch({ user: getUserByToken(token) });
+        cookies.set(CookiesKeys.ACCESS_TOKEN, token);
+    } catch (err) {
+        console.error(err);
+    }
+
     router.push({ name: 'Home' });
 };
 </script>

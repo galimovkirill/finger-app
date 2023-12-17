@@ -39,7 +39,7 @@ const onAppInit = () => {
     }
 
     userStore.$patch({ user: decodedUser });
-    http.defaults.headers.common['Authorization'] = accessToken;
+    http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 };
 
 const startServer = async () => {
