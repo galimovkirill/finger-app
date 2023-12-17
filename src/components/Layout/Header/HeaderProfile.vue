@@ -23,7 +23,8 @@
                     </SvgIcon>
                     Профиль
                 </li>
-                <li class="header-profile-dropdown__item">
+
+                <li class="header-profile-dropdown__item" @click="logout">
                     <SvgIcon>
                         <IconExit />
                     </SvgIcon>
@@ -41,6 +42,9 @@ import IconUser from '@/icons/IconUser.vue';
 import IconExit from '@/icons/IconExit.vue';
 
 import { FgAvatar, FgPopover } from '@galimovdev/fg-ui';
+import { useAuth } from '@/composables/auth/useAuth';
+
+const { logout } = useAuth();
 </script>
 
 <style lang="scss">
