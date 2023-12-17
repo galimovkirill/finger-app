@@ -42,9 +42,42 @@ import { FgButton, FgInput } from '@galimovdev/fg-ui';
 import SvgIcon from '@/components/SvgIcon.vue';
 import IconLock from '@/icons/IconLock.vue';
 import IconEmail from '@/icons/IconEmail.vue';
-import { useLogin } from '@/composables/useLogin';
+import { useLogin } from '@/composables/auth/useLogin';
+import useVuelidate from '@vuelidate/core';
+import { required, email as emailValidator, minLength } from '@vuelidate/validators';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { PASSWORD_MIN_LENGTH } from '@/constants/auth';
 
-const { email, password, onSubmit, $v } = useLogin();
+const router = useRouter();
+const { email, password, loginUser } = useLogin();
+
+const validationRules = computed(() => ({
+    email: {
+        required,
+        email: emailValidator
+    },
+    password: {
+        required,
+        minLength: minLength(PASSWORD_MIN_LENGTH)
+    }
+}));
+
+const $v = useVuelidate(validationRules, {
+    email,
+    password
+});
+
+const onSubmit = async () => {
+    await $v.value.$validate();
+
+    if ($v.value.$error) {
+        return;
+    }
+
+    await loginUser({ email: email.value, password: password.value });
+    router.push({ name: 'Home' });
+};
 </script>
 
 <style lang="scss">

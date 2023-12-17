@@ -1,9 +1,14 @@
 <template>
-    <form class="register-form" @submit.prevent="submitRegister">
+    <form class="register-form" @submit.prevent="onSubmit">
         <h1 class="text-heading-s register-form__heading">Регистрация</h1>
 
         <div class="register-fields">
-            <FgInput v-model="email" placeholder="Электронный адрес" type="email">
+            <FgInput
+                v-model="email"
+                :invalid="$v.email.$dirty && $v.email.$invalid"
+                placeholder="Электронный адрес"
+                type="email"
+            >
                 <template #icon>
                     <SvgIcon>
                         <IconEmail />
@@ -11,7 +16,12 @@
                 </template>
             </FgInput>
 
-            <FgInput v-model="password" placeholder="Пароль" type="password">
+            <FgInput
+                v-model="password"
+                :invalid="$v.password.$dirty && $v.password.$invalid"
+                placeholder="Пароль"
+                type="password"
+            >
                 <template #icon>
                     <SvgIcon>
                         <IconLock />
@@ -46,9 +56,47 @@ import { FgInput, FgButton, FgCheckbox } from '@galimovdev/fg-ui';
 import SvgIcon from '@/components/SvgIcon.vue';
 import IconEmail from '@/icons/IconEmail.vue';
 import IconLock from '@/icons/IconLock.vue';
-import { useRegister } from '@/composables/useRegister';
+import { useRegister } from '@/composables/auth/useRegister';
+import { computed } from 'vue';
+import { required, email as emailValidator, minLength, sameAs } from '@vuelidate/validators';
+import { PASSWORD_MIN_LENGTH } from '@/constants/auth';
+import useVuelidate from '@vuelidate/core';
+import { useRouter } from 'vue-router';
 
-const { email, password, passwordRepeat, isPolicyAgreed, submitRegister } = useRegister();
+const router = useRouter();
+const { email, password, passwordRepeat, isPolicyAgreed, registerUser } = useRegister();
+
+const validationRules = computed(() => ({
+    email: {
+        required,
+        email: emailValidator
+    },
+    password: {
+        required,
+        minLength: minLength(PASSWORD_MIN_LENGTH)
+    },
+    passwordRepeat: {
+        required,
+        sameAsRef: sameAs(password)
+    }
+}));
+
+const $v = useVuelidate(validationRules, {
+    email,
+    password,
+    passwordRepeat
+});
+
+const onSubmit = async () => {
+    await $v.value.$validate();
+
+    if ($v.value.$error) {
+        return;
+    }
+
+    await registerUser({ email: email.value, password: password.value });
+    router.push({ name: 'Home' });
+};
 </script>
 
 <style lang="scss">
