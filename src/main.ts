@@ -13,6 +13,7 @@ import jwtDecode from 'jwt-decode';
 import { UserDecodedToken } from '@/types/user/user';
 import dayjs from 'dayjs';
 import { http } from '@/modules/http';
+import { useInitialData } from '@/composables/useInitialData';
 
 const app = createApp(App);
 const store = createPinia();
@@ -21,6 +22,7 @@ app.use(store);
 
 const cookies = useCookies();
 const userStore = useUserStore();
+const { getInitialData } = useInitialData();
 
 const onAppInit = () => {
     const accessToken = cookies.get(CookiesKeys.ACCESS_TOKEN);
@@ -40,6 +42,8 @@ const onAppInit = () => {
 
     userStore.$patch({ user: decodedUser });
     http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+    getInitialData();
 };
 
 const startServer = async () => {

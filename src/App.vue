@@ -19,13 +19,10 @@
 
 <script lang="ts" setup>
 import ToastNotification from '@/components/Common/ToastNotification.vue';
-import { useInitialData } from '@/composables/useInitialData';
 import { useNotificationsStore } from '@/stores/notifications';
 import { storeToRefs } from 'pinia';
-import { capitalize, computed, defineAsyncComponent, onMounted } from 'vue';
+import { capitalize, computed, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
-
-const { getInitialData } = useInitialData();
 
 const router = useRouter();
 const layout = computed(() => {
@@ -36,10 +33,6 @@ const layout = computed(() => {
 });
 
 const { notifications } = storeToRefs(useNotificationsStore());
-
-onMounted(async () => {
-    await getInitialData();
-});
 </script>
 
 <style lang="scss">
