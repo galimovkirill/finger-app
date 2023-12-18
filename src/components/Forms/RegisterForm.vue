@@ -8,6 +8,7 @@
                 :invalid="$v.email.$dirty && $v.email.$invalid"
                 placeholder="Электронный адрес"
                 type="email"
+                name="email"
             >
                 <template #icon>
                     <SvgIcon>
@@ -21,6 +22,7 @@
                 :invalid="$v.password.$dirty && $v.password.$invalid"
                 placeholder="Пароль"
                 type="password"
+                name="password"
             >
                 <template #icon>
                     <SvgIcon>
@@ -29,7 +31,12 @@
                 </template>
             </FgInput>
 
-            <FgInput v-model="passwordRepeat" placeholder="Повторите пароль" type="password">
+            <FgInput
+                v-model="passwordRepeat"
+                placeholder="Повторите пароль"
+                type="password"
+                name="passwordRepeat"
+            >
                 <template #icon>
                     <SvgIcon>
                         <IconLock />

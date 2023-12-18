@@ -1,5 +1,7 @@
 <template>
-    <div class="account-create-card" @click="isCreationModalShown = true">Добавить счет</div>
+    <div class="account-create" :class="buttonClasses" @click="isCreationModalShown = true">
+        Добавить счет
+    </div>
 
     <Teleport to="body">
         <FgModal v-if="isCreationModalShown" @close-modal="isCreationModalShown = false">
@@ -17,7 +19,19 @@
 <script lang="ts" setup>
 import { FgModal } from '@galimovdev/fg-ui';
 import AccountCreateForm from '@/components/Account/AccountCreateForm.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+
+interface Props {
+    view?: 'text' | 'card';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    view: 'text'
+});
+
+const buttonClasses = computed(() =>
+    props.view === 'card' ? 'account-create--card' : 'account-create--text'
+);
 
 const isCreationModalShown = ref(false);
 </script>
@@ -26,20 +40,24 @@ const isCreationModalShown = ref(false);
 @import '@/assets/styles/mixin.scss';
 @import '@/assets/styles/typography.scss';
 
-.account-create-card {
+.account-create {
     @extend .text-body-s;
 
-    border: 1px solid getColor('base-04');
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
     user-select: none;
-    transition: 0.2s ease;
 
-    &:hover {
-        background-color: getColor('base-02');
+    &--card {
+        border: 1px solid getColor('base-04');
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s ease;
+        height: 100%;
+
+        &:hover {
+            background-color: getColor('base-02');
+        }
     }
 }
 </style>

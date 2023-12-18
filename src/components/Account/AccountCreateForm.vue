@@ -1,8 +1,8 @@
 <template>
     <form class="account-create" @submit.prevent="onSubmit">
         <div class="account-create__fields">
-            <FgInput v-model="accountName" placeholder="Название счета" />
-            <FgInput v-model="initialBalance" placeholder="Начальный баланс" type="number" />
+            <FgInput v-model="accountName" placeholder="Название счета" name="accountName" />
+            <FgInput v-model="initialBalance" placeholder="Начальный баланс" type="number" name="initialBalance" />
             <FgSelect
                 v-model="currencyCode"
                 :options="currenciesStore.currencies.map((c) => c.code)"
