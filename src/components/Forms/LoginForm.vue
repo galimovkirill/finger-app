@@ -51,15 +51,12 @@ import { useRouter } from 'vue-router';
 import { PASSWORD_MIN_LENGTH } from '@/constants/auth';
 import { useAuth } from '@/composables/auth/useAuth';
 import { useUserStore } from '@/stores/user';
-import { useCookies } from '@vueuse/integrations/useCookies';
-import { CookiesKeys } from '@/constants/cookies';
 
 const userStore = useUserStore();
 
 const router = useRouter();
-const cookies = useCookies();
 
-const { getUserByToken } = useAuth();
+const { updateUserByToken } = useAuth();
 
 const email = ref('');
 const password = ref('');
@@ -93,8 +90,7 @@ const onSubmit = async () => {
             password: password.value
         });
 
-        userStore.$patch({ user: getUserByToken(token) });
-        cookies.set(CookiesKeys.ACCESS_TOKEN, token);
+        updateUserByToken(token);
     } catch (error) {
         console.log(error);
     }
@@ -105,7 +101,8 @@ const onSubmit = async () => {
 
 <style lang="scss">
 .login-form {
-    min-width: 300px;
+    max-width: 300px;
+    width: 100%;
 
     &__heading {
         margin-bottom: 16px;

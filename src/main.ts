@@ -8,12 +8,10 @@ import router from './router';
 import '@galimovdev/fg-ui/css';
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { CookiesKeys } from '@/constants/cookies';
-import { useUserStore } from '@/stores/user';
 import jwtDecode from 'jwt-decode';
 import { UserDecodedToken } from '@/types/user/user';
 import dayjs from 'dayjs';
-import { http } from '@/modules/http';
-import { useInitialData } from '@/composables/useInitialData';
+import { useAuth } from '@/composables/auth/useAuth';
 
 const app = createApp(App);
 const store = createPinia();
@@ -21,8 +19,7 @@ const store = createPinia();
 app.use(store);
 
 const cookies = useCookies();
-const userStore = useUserStore();
-const { getInitialData } = useInitialData();
+const { updateUserByToken } = useAuth();
 
 const onAppInit = () => {
     const accessToken = cookies.get(CookiesKeys.ACCESS_TOKEN);
@@ -40,14 +37,11 @@ const onAppInit = () => {
         return;
     }
 
-    userStore.$patch({ user: decodedUser });
-    http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-    getInitialData();
+    updateUserByToken(accessToken);
 };
 
-const startServer = async () => {
-    await onAppInit();
+const startServer = () => {
+    onAppInit();
 
     app.use(router);
     app.mount('#app');

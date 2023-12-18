@@ -68,14 +68,11 @@ import { required, email as emailValidator, minLength, sameAs } from '@vuelidate
 import { PASSWORD_MIN_LENGTH } from '@/constants/auth';
 import useVuelidate from '@vuelidate/core';
 import { useRouter } from 'vue-router';
-import { useCookies } from '@vueuse/integrations/useCookies';
 import { useAuth } from '@/composables/auth/useAuth';
 import { useUserStore } from '@/stores/user';
-import { CookiesKeys } from '@/constants/cookies';
 
 const userStore = useUserStore();
-const { getUserByToken } = useAuth();
-const cookies = useCookies();
+const { updateUserByToken } = useAuth();
 
 const router = useRouter();
 
@@ -118,8 +115,7 @@ const onSubmit = async () => {
             password: password.value
         });
 
-        userStore.$patch({ user: getUserByToken(token) });
-        cookies.set(CookiesKeys.ACCESS_TOKEN, token);
+        updateUserByToken(token);
     } catch (err) {
         console.error(err);
     }
@@ -130,7 +126,8 @@ const onSubmit = async () => {
 
 <style lang="scss">
 .register-form {
-    min-width: 300px;
+    max-width: 300px;
+    width: 100%;
 
     &__heading {
         margin-bottom: 16px;
