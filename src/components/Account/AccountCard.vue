@@ -1,11 +1,13 @@
 <template>
     <div class="account-card">
         <div class="account-card__wrapper">
-            <FgAvatar color="primary">{{ name }}</FgAvatar>
+            <FgAvatar color="primary">{{ account.name }}</FgAvatar>
 
             <div class="account-card__body">
-                <span class="account-card__title">{{ name }}</span>
-                <FgCounter :value="balance" class="account-card__balance" />
+                <span class="account-card__title">{{ account.name }}</span>
+                <FgCounter :value="account.balance" class="account-card__balance">
+                    {{ account.currencyCode }}
+                </FgCounter>
             </div>
         </div>
     </div>
@@ -15,7 +17,9 @@
 import { Account } from '@/types/account/account';
 import { FgAvatar, FgCounter } from '@galimovdev/fg-ui';
 
-interface Props extends Pick<Account, 'name' | 'balance'> {}
+interface Props {
+    account: Account;
+}
 
 defineProps<Props>();
 </script>
@@ -40,6 +44,7 @@ defineProps<Props>();
     &__body {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
         margin-left: 12px;
     }
 
@@ -48,7 +53,7 @@ defineProps<Props>();
     }
 
     &__balance {
-        @extend .text-body-l, .text-body-bold;
+        @extend .text-body-m, .text-body-bold;
     }
 
     &:hover {

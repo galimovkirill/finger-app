@@ -21,7 +21,7 @@
                 :key="account.id"
                 :span="{ sm: 12, md: 6, xl: 3 }"
             >
-                <AccountCard :name="account.name" :balance="account.balance" />
+                <AccountCard :account="account" />
             </FgGridColumn>
 
             <FgGridColumn v-if="!hasAccounts">
